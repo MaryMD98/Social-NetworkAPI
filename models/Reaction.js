@@ -21,9 +21,16 @@ const ReactionSchema = new Schema({
         get: (timestamp) => dateFormat(timestamp),
         // * Use a getter method to format the timestamp on query
     },
-});
+  },
+  {
+    toJSON: {
+      getters: true,
+    },
+    id: false,
+  }
+);
 
-
+module.exports = ReactionSchema;
 // **Schema Settings**:
 
 // This will not be a model, but rather will be used 

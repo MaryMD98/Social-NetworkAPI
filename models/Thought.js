@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const ReactionSchema = require('./Reaction');
 const dateFormat = require('../utils/dateFormat');
 
 const ThoughtSchema = new Schema({
@@ -17,11 +18,11 @@ const ThoughtSchema = new Schema({
         type: String,
         required: true,
     },
-    reactions:[
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'reaction',
-        },
+    reactions:[ReactionSchema
+        // {
+        //     type: Schema.Types.ObjectId,
+        //     ref: 'ReactionSchema',
+        // },
     ],
   },
   {
@@ -29,6 +30,7 @@ const ThoughtSchema = new Schema({
     // Here we are indicating that we want virtuals to be included with our response, overriding the default behavior
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: false,
   }
@@ -39,7 +41,7 @@ const ThoughtSchema = new Schema({
 ThoughtSchema
   .virtual('reactionCount')
   .get(function () {
-      return `${this.reactions.length}`;
+      return this.reactions.length;
   });
 
   // Initialized the thought model
