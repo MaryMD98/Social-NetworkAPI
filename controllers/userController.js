@@ -10,7 +10,7 @@ module.exports = {
 
     // GET single user by _id
     getSingleUser(req, res){
-        User.findOne({_id: req.params.userId})
+        User.findOne({ _id: req.params.userId })
             .select('-__v')
             .then((user) =>
                 !user
@@ -28,15 +28,28 @@ module.exports = {
     },
 
     // PUT update a user by _id
+    updateUser(req, res){
+        User.findOneAndUpdate({ _id: req.params.userId }, 
+            { $set: req.body }, { new: true })
+            .then((user) =>
+                !user
+                    ? res.status(404).json({message: 'No user with that ID'})
+                    : res.json(user)
+            )
+            .catch((err) => res.status(500).json(err));
+    },
     // DELETE remove by its _id
     deleteUser(req, res) {
         User.findOneAndDelete({ _id: req.params.userId })
             .then((user) =>
                 !user
                     ? res.status(404).json({ message: 'No user with that ID' })
-                    : Thought.deleteMany({ _id: { $in: user.applications } })
+                    : res.json(user)
           )
-          .then(() => res.json({ message: 'User and associated thought deleted!' }))
           .catch((err) => res.status(500).json(err));
     },
+
+    // POST to add a new friend to userlist
+    
+    // Delete to remove a friend to user list
 };
