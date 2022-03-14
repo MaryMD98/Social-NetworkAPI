@@ -1,10 +1,14 @@
 [
     {
         "username": "lernantino",
-        "email": "lernantino@gmail.com"
+        "email": "lernantino@gmail.com",
+        "friends": [],
+        "thoughts": []
     },
     {
         "username": "Mary",
-        "email": "mary@me.com"
+        "email": "mary@me.com",
+        "friends": [],
+        "thoughts": []
     }
 ]
