@@ -9,11 +9,21 @@ db.once('open', async () => {
     await Thought.deleteMany({});
     await User.deleteMany({});
 
-    const thoughts = await Thought.create(thoughtSeeds);
+    // const thoughts = await Thought.create(thoughtSeeds);
     const users = await User.create(userSeeds);
 
-    console.table(thoughts);
-    console.table(users);
+    for (let i = 0; i < thoughtSeeds.length; i++) {
+        const { _id, username } = await Thought.create(thoughtSeeds[i]);
+        const user = await User.findOneAndUpdate(
+          { username: username },
+          {
+            $addToSet: {
+                thoughts: _id,
+            },
+          }
+        );
+      }
+
     console.log('all done! Seeding complete! 🌱');
     process.exit(0);
 });

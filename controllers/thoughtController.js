@@ -8,7 +8,7 @@ module.exports = {
             .catch((err) => res.status(500).json(err));
     },
     // GET to get a single thought by its `_id`
-    getSingleUser(req, res){
+    getSinglethought(req, res){
         Thought.findOne({ _id: req.params.thoughtId })
             .select('-__v')
             .then((thoughts) => 
@@ -62,7 +62,7 @@ module.exports = {
             .then((user) =>
                 !user
                 ? res.status(404).json({message: 'No user with this id!',})
-                : res.json({ message: 'Application successfully deleted!' })
+                : res.json({ message: 'Thought successfully deleted!' })
             )
             .catch((err) => res.status(500).json(err));
     },
@@ -85,8 +85,8 @@ module.exports = {
     removeReaction(req, res){
         Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
-                { $pull: { tags: { responseId: req.params.reactionId } } },
-                // { $pull: { reactions: { _id: req.body } } },
+                // { $pull: { reactions: { _id: req.params.reactionId } } },
+                { $pull: { reactions: { _id: req.body } } },
                 { new: true }
             )
             .then((thoughts) =>
